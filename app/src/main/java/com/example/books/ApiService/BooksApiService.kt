@@ -1,6 +1,6 @@
-package com.example.books
+package com.example.books.ApiService
 
-import View.Book
+import com.example.books.Model.Book
 import retrofit2.http.GET
 
 interface BooksApiService {

@@ -1,4 +1,4 @@
-package View
+package com.example.books.Model
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -7,13 +7,15 @@ data class Book(
     val id: String,
     val title: String,
     val author: String,
-    val imageUrl: String
+    val imageUrl: String,
+    val bookDescription: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -21,6 +23,7 @@ data class Book(
         parcel.writeString(title)
         parcel.writeString(author)
         parcel.writeString(imageUrl)
+        parcel.writeString(bookDescription)
     }
 
     override fun describeContents(): Int {

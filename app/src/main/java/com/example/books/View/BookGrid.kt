@@ -1,4 +1,4 @@
-package View
+package com.example.books.View
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -14,6 +14,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.books.Model.Book
 
 @Composable
 fun BooksGrid(
