@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.navigation.NavigableSupportingPaneScaffold
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -24,6 +28,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.books.ui.theme.BooksTheme
 import kotlinx.coroutines.launch
 
@@ -38,45 +48,27 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    getBooks()
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "BooksScreen") {
+                        composable(route = "BooksScreen") {
+                            BooksScreen(navController = navController)
+                        }
+                        composable(route = "BookDetailsScreen") {
+                            BookDetailsScreen(navController = navController)
+                        }
+                    }
+                // DetailScreenOpen()
                 }
             }
         }
     }
 }
 
-//@Composable
-//fun DetailScreenOpen(modifier: Modifier = Modifier, viewModel: BookViewModel = viewModel()){
-//    val navigator = rememberListDetailPaneScaffoldNavigator<Any>()
-//    val coroutineScope = rememberCoroutineScope()
-//
-//    NavigableSupportingPaneScaffold(
-//        modifier = modifier,
-//        navigator = navigator,
-//        mainPane = {
-//            val books = viewModel.booksData.observeAsState().value
-//
-//            if (books.isNullOrEmpty()) {
-//                Text(text = "No books available", modifier = modifier)
-//            } else {
-//                BooksGrid(books = books) {
-//                    coroutineScope.launch { // Launch a coroutine
-//                        navigator.navigateTo(
-//                            pane = ListDetailPaneScaffoldRole.Detail,
-//                            contentKey = it
-//                        )
-//                    }
-//                }
-//            }
-//        },
-//        supportingPane = {
-//            val content = navigator.currentDestination?.contentKey
-//            BookDetailsScreen(book = content)
-//        })
-//}
-
 @Composable
-fun getBooks(modifier: Modifier = Modifier, viewModel: BookViewModel = viewModel()) {
+fun BooksScreen(modifier: Modifier = Modifier,
+                viewModel: BookViewModel = viewModel(),
+                navController: NavController
+) {
     val books = viewModel.booksData.observeAsState().value
 
     if (books.isNullOrEmpty()) {
@@ -85,7 +77,7 @@ fun getBooks(modifier: Modifier = Modifier, viewModel: BookViewModel = viewModel
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier
-                .padding(top = 32.dp) // Add top padding here
+                .padding(top = 64.dp) // Add top padding here
         ) {
             Text(
                 text = "Books",
@@ -97,17 +89,7 @@ fun getBooks(modifier: Modifier = Modifier, viewModel: BookViewModel = viewModel
 
             Spacer(modifier = Modifier.height(16.dp)) // Add some space between title and grid
 
-            BooksGrid(books = books) {
-                // Handle item click here
-            }
+            BooksGrid(books = books, navController = navController)
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    BooksTheme {
-        getBooks()
     }
 }

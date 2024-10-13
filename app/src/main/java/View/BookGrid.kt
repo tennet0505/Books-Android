@@ -12,13 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun BooksGrid(
     books: List<Book>,  // The list of books passed from ViewModel
     modifier: Modifier = Modifier,
-    onBookClick: (Book) -> Unit // Lambda to handle book clicks
+    navController: NavController// Lambda to handle book clicks
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2), // Creates a grid with 2 columns
@@ -30,20 +31,24 @@ fun BooksGrid(
         items(books) { book ->
             BookItem(
                 book = book,
-                onClick = { onBookClick(book) } // Pass the book object on click
+                navController = navController
             )
         }
     }
 }
 
 @Composable
-fun BookItem(book: Book, onClick: () -> Unit) {
+fun BookItem(book: Book, navController: NavController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp)
-            .aspectRatio(0.75f) // Adjust aspect ratio as needed
-            .clickable(onClick = onClick) // Make it clickable
+            .aspectRatio(0.75f)
+            .clickable {
+                // Navigate and pass the Book object
+                navController.currentBackStackEntry?.savedStateHandle?.set("book", book)
+                navController.navigate(route = "BookDetailsScreen")
+            }
     ) {
         Column {
             Image(

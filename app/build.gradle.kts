@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.books"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.books"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -65,45 +65,46 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
-    // Jetpack Compose
+    implementation(libs.androidx.adaptive)
+    implementation(libs.androidx.adaptive.layout)
+    implementation(libs.androidx.adaptive.navigation)
 
     // Compose ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
 
     // Compose LiveData
-    implementation("androidx.compose.runtime:runtime-livedata:1.7.3")
+    implementation(libs.androidx.runtime.livedata)
 
     // Retrofit for networking
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation(libs.retrofit)
+    implementation(libs.converter.moshi)
 
     // Moshi for JSON serialization
-    implementation("com.squareup.moshi:moshi:1.15.1")
-    implementation("com.squareup.moshi:moshi-kotlin:1.15.1")
+    implementation(libs.moshi)
+    implementation(libs.moshi.kotlin)
 
     // OkHttp Interceptor for logging
-    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
+    implementation(libs.logging.interceptor)
 
     // Image loading with Coil
-    implementation("io.coil-kt:coil-compose:2.4.0")
+    implementation(libs.coil.compose)
 
     // Material Design 3 components
-    implementation("androidx.compose.material3:material3")
+    implementation(libs.material3)
 
     // Additional Compose UI dependencies (if needed)
-    implementation("androidx.compose.material:material")
-    implementation("androidx.compose.foundation:foundation")
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.activity:activity-compose:1.9.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.0")
+    implementation(libs.androidx.material)
+    implementation(libs.androidx.foundation)
+    implementation(libs.ui)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
 
     // Optional - Add full set of material icons
-    implementation("androidx.compose.material:material-icons-extended")
-    implementation("io.coil-kt:coil-compose:2.2.2")
-    implementation ("androidx.navigation:navigation-compose:2.6.0")
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.coil.compose.v222)
+    implementation (libs.androidx.navigation.compose)
 
 }
 
