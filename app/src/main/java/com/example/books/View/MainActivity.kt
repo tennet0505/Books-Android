@@ -38,15 +38,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "BooksScreen") {
-                        composable(route = "BooksScreen") {
-                            BooksScreen(navController = navController)
-                        }
-                        composable(route = "BookDetailsScreen") {
-                            BookDetailsScreen(navController = navController)
-                        }
-                    }
+                    MyApp()
                 }
             }
         }

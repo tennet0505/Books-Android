@@ -49,7 +49,6 @@ fun BooksScreen(
     } else {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier.padding(top = 64.dp) // Add top padding here
         ) {
             Text(
                 text = "Books",
