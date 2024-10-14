@@ -11,7 +11,7 @@ import com.example.books.DB.BookRepository
 import com.example.books.DB.BookViewModelFactory
 import kotlinx.coroutines.launch
 
-class BookViewModel(private val repository: BookRepository) : ViewModel() {
+class BookViewModel(private val repository: BookRepository) : ViewModel(), BookOperations {
 
     private val _bookData = MutableLiveData<List<Book>>()  // List of Book objects
     val booksData: LiveData<List<Book>> get() = _bookData
@@ -52,10 +52,9 @@ class BookViewModel(private val repository: BookRepository) : ViewModel() {
         }
     }
 
-    fun updateBookFavoriteStatus(bookId: Long, isFavorite: Boolean) {
+    override fun updateBookFavoriteStatus(bookId: Int, isFavorite: Boolean) {
         viewModelScope.launch {
             repository.updateBookFavoriteStatus(bookId, isFavorite)
         }
     }
 }
-

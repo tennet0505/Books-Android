@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -18,24 +19,30 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.books.ViewModel.BookViewModel
+import com.example.books.ViewModel.FavoriteBooksViewModel
 
 @Composable
-fun BooksScreen(
-    viewModel: BookViewModel,
+fun FavoriteBooksScreen(
+    favoriteBooksViewModel: FavoriteBooksViewModel,
     navController: NavController,
 ) {
-    val books = viewModel.booksData.observeAsState(emptyList()).value
-    val filteredBooks = viewModel.filteredBooks.observeAsState(emptyList()).value
+    // Observe filtered favorite books from the ViewModel
+    val books = favoriteBooksViewModel.favoriteBooks.observeAsState(emptyList()).value
+    val filteredBooks = favoriteBooksViewModel.filteredBooks.observeAsState(emptyList()).value
+
+    // Load favorite books when this screen is first displayed
+    LaunchedEffect(Unit) {
+        favoriteBooksViewModel.loadFavoriteBooks()
+    }
 
     if (books.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
             Text(
-                text = "No book details available",
+                text = "No favorite books available",
                 style = TextStyle(
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,
@@ -51,7 +58,7 @@ fun BooksScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                text = "Books",
+                text = "Favorite Books",
                 style = TextStyle(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
@@ -61,9 +68,9 @@ fun BooksScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             TextField(
-                value = viewModel.searchQuery,
-                onValueChange = { viewModel.searchQuery = it },
-                placeholder = { Text("Search books...") },
+                value = favoriteBooksViewModel.searchQuery,
+                onValueChange = { favoriteBooksViewModel.searchQuery = it },
+                placeholder = { Text("Search favorite books...") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)

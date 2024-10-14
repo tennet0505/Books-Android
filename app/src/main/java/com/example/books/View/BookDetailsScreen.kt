@@ -37,12 +37,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.books.Model.BookLocal
+import com.example.books.ViewModel.BookOperations
 import com.example.books.ViewModel.BookViewModel
 
 @Composable
 fun BookDetailsScreen(
     navController: NavController,
-    viewModel: BookViewModel
+    viewModel: BookOperations
 ) {
     // Retrieve the book from the navigation back stack
     val book = navController.previousBackStackEntry
@@ -53,7 +54,7 @@ fun BookDetailsScreen(
     var isFavorite by remember { mutableStateOf(book?.isFavorite ?: false) }
 
     // Get the book ID and ensure it's not null
-    val bookId = book?.id?.toLong() ?: throw IllegalArgumentException("Book ID cannot be null")
+    val bookId = book?.id?.toInt() ?: throw IllegalArgumentException("Book ID cannot be null")
 
     // Function to handle favorite click
     val onFavoriteClick: () -> Unit = {

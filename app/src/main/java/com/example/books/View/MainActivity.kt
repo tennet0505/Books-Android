@@ -30,6 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.books.DB.AppDatabase
 import com.example.books.DB.BookRepository
 import com.example.books.DB.BookViewModelFactory
+import com.example.books.ViewModel.FavoriteBooksViewModel
 import com.example.books.ui.theme.BooksTheme
 
 class MainActivity : ComponentActivity() {
@@ -46,6 +47,9 @@ class MainActivity : ComponentActivity() {
         val bookViewModel: BookViewModel by viewModels {
             BookViewModelFactory(bookRepository)
         }
+        val favBooksViewModel: FavoriteBooksViewModel by viewModels {
+            BookViewModelFactory(bookRepository)
+        }
 
         setContent {
             BooksTheme {
@@ -53,7 +57,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MyApp(bookViewModel = bookViewModel)
+                    MyApp(
+                        bookViewModel = bookViewModel,
+                        favBookViewModel = favBooksViewModel
+                    )
                 }
             }
         }

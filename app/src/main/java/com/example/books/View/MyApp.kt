@@ -16,9 +16,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.books.ViewModel.BookViewModel
+import com.example.books.ViewModel.FavoriteBooksViewModel
 
 @Composable
-fun MyApp(bookViewModel: BookViewModel) {
+fun MyApp(bookViewModel: BookViewModel,
+          favBookViewModel: FavoriteBooksViewModel) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomNavBar(navController) }
@@ -29,7 +31,7 @@ fun MyApp(bookViewModel: BookViewModel) {
             Modifier.padding(innerPadding)
         ) {
             composable("home") { HomeScreen(bookViewModel) }
-            composable("favorite") { MyLibraryScreen() }
+            composable("favorite") { MyLibraryScreen(favBookViewModel) }
         }
     }
 }
@@ -52,7 +54,18 @@ fun HomeScreen(bookViewModel: BookViewModel) {
 }
 
 @Composable
-fun MyLibraryScreen() {
-    // Your profile screen content
-    Text(text = "This is the Profile Screen")
+fun MyLibraryScreen(favBooksViewModel: FavoriteBooksViewModel) {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "FavoriteBooksScreen") {
+        composable(route = "FavoriteBooksScreen") {
+            FavoriteBooksScreen(
+                navController = navController,
+                favoriteBooksViewModel = favBooksViewModel)
+        }
+        composable(route = "BookDetailsScreen") {
+            BookDetailsScreen(
+                navController = navController,
+                viewModel = favBooksViewModel)
+        }
+    }
 }

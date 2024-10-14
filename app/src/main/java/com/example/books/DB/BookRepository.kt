@@ -13,10 +13,23 @@ class BookRepository(private val bookDao: BookDao) {
             emptyList<Book>()
         }
 
-        // Save books to the database if API call was successful
-        if (books.isNotEmpty()) {
-            bookDao.insertBooks(books)
+        // Load existing books from the database to preserve favorite statuses
+        val existingBooks = getBooksFromDb().associateBy { it.id }
+
+        // Prepare a list to save the updated books with preserved favorite status
+        val updatedBooks = books.map { apiBook ->
+            val existingBook = existingBooks[apiBook.id]
+            if (existingBook != null) {
+                // If the book already exists, keep its favorite status
+                existingBook.copy(title = apiBook.title, author = apiBook.author, imageUrl = apiBook.imageUrl, bookDescription = apiBook.bookDescription)
+            } else {
+                // If it's a new book, return it as is
+                apiBook
+            }
         }
+
+        // Save updated books to the database
+        bookDao.insertBooks(updatedBooks)
     }
 
     // Get books from the database
@@ -28,8 +41,17 @@ class BookRepository(private val bookDao: BookDao) {
         return bookDao.getBookById(id)
     }
 
-    suspend fun updateBookFavoriteStatus(bookId: Long, isFavorite: Boolean) {
-        bookDao.updateBookFavoriteStatus(bookId, isFavorite)
+    // Update favorite status for a book
+    suspend fun updateBookFavoriteStatus(bookId: Int, isFavorite: Boolean) {
+        val book = bookDao.getBookById(bookId)
+        if (book != null) {
+            val updatedBook = book.copy(isFavorite = isFavorite)
+            bookDao.update(updatedBook)
+        }
+    }
+
+    // Method to get favorite books if needed
+    suspend fun getFavoriteBooks(): List<Book> {
+        return bookDao.getFavoriteBooks() // Assume this method is defined in your DAO
     }
 }
-
