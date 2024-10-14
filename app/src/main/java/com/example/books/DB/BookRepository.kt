@@ -23,5 +23,13 @@ class BookRepository(private val bookDao: BookDao) {
     suspend fun getBooksFromDb(): List<Book> {
         return bookDao.getAllBooks()
     }
+
+    suspend fun getBookById(id: Int): Book? {
+        return bookDao.getBookById(id)
+    }
+
+    suspend fun updateBookFavoriteStatus(bookId: Long, isFavorite: Boolean) {
+        bookDao.updateBookFavoriteStatus(bookId, isFavorite)
+    }
 }
 

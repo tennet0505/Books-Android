@@ -23,7 +23,6 @@ import com.example.books.ViewModel.BookViewModel
 
 @Composable
 fun BooksScreen(
-    modifier: Modifier = Modifier,
     viewModel: BookViewModel,  // Use the viewModel passed from the parent
     navController: NavController
 ) {

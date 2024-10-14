@@ -1,7 +1,9 @@
 package com.example.books.Model
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -12,36 +14,53 @@ data class Book(
     val title: String,
     val author: String,
     val imageUrl: String,
-    val bookDescription: String
+    val bookDescription: String,
+    val isFavorite: Boolean = false
 )
+
+fun Book.toBookLocal(): BookLocal {
+    return BookLocal(
+        id = this.id.toString(),  // Convert Long to String
+        title = this.title,
+        author = this.author,
+        imageUrl = this.imageUrl,
+        bookDescription = this.bookDescription,
+        isFavorite = this.isFavorite
+    )
+}
 
 data class BookLocal(
     val id: String,
     val title: String,
     val author: String,
     val imageUrl: String,
-    val bookDescription: String
+    val bookDescription: String,
+    val isFavorite: Boolean = false
 ) : Parcelable {
+    @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-    )
+        parcel.readBoolean()
 
+    )
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(author)
         parcel.writeString(imageUrl)
         parcel.writeString(bookDescription)
+        parcel.writeBoolean(isFavorite)
     }
 
     override fun describeContents(): Int {
         return 0
     }
-
+    @RequiresApi(Build.VERSION_CODES.Q)
     companion object CREATOR : Parcelable.Creator<BookLocal> {
         override fun createFromParcel(parcel: Parcel): BookLocal {
             return BookLocal(parcel)

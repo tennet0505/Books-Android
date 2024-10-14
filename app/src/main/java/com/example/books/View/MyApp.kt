@@ -39,10 +39,14 @@ fun HomeScreen(bookViewModel: BookViewModel) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "BooksScreen") {
         composable(route = "BooksScreen") {
-            BooksScreen(viewModel = bookViewModel, navController = navController)
+            BooksScreen(
+                navController = navController,
+                viewModel = bookViewModel)
         }
         composable(route = "BookDetailsScreen") {
-            BookDetailsScreen(navController = navController)
+            BookDetailsScreen(
+                navController = navController,
+                viewModel = bookViewModel)
         }
     }
 }

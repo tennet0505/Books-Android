@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.books.Model.Book
+import com.example.books.Model.BookLocal
+import com.example.books.Model.toBookLocal
 
 @Composable
 fun BooksGrid(
@@ -47,8 +49,9 @@ fun BookItem(book: Book, navController: NavController) {
             .aspectRatio(0.75f)
             .clickable {
                 // Navigate and pass the Book object
-                navController.currentBackStackEntry?.savedStateHandle?.set("book", book)
-                navController.navigate(route = "BookDetailsScreen")
+                val bookLocal: BookLocal = book.toBookLocal()
+                navController.currentBackStackEntry?.savedStateHandle?.set("book", bookLocal)
+                navController.navigate("BookDetailsScreen")
             }
     ) {
         Column {
