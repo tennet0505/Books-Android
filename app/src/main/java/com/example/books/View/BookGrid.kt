@@ -1,6 +1,7 @@
 package com.example.books.View
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -9,9 +10,17 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.books.Model.Book
@@ -54,22 +63,76 @@ fun BookItem(book: Book, navController: NavController) {
                 navController.navigate("BookDetailsScreen")
             }
     ) {
-        Column {
+        Box(Modifier.fillMaxSize()) {
+            // Image as background
             Image(
                 painter = rememberAsyncImagePainter(book.imageUrl),
                 contentDescription = "Book cover",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+            )
+
+            // Top gradient
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp),
-                contentScale = ContentScale.Crop
+                    .height(150.dp) // Adjust height as needed
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Black.copy(alpha = 0.4f),  // 40% opacity black
+                                Color.Transparent // Fully transparent
+                            ),
+                            startY = 0f,
+                            endY = 300f // Adjust as needed for smoother transition
+                        )
+                    )
             )
+
+            // Bottom gradient
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(150.dp) // Adjust height as needed
+                    .align(Alignment.BottomCenter)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Black.copy(alpha = 0.4f),  // 40% opacity black
+                                Color.Transparent // Fully transparent
+                            ),
+                            startY = 300f, // Adjust as needed for smoother transition
+                            endY = 0f
+                        )
+                    )
+            )
+
+            // Title at the top center
             Text(
                 text = book.title,
-                modifier = Modifier.padding(8.dp)
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                color = Color.White,
+                fontSize = 28.sp,
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 16.dp)
+                    .padding(horizontal = 8.dp)// Adjust padding as necessary
             )
+
+            // Author at the bottom center
             Text(
                 text = "by ${book.author}",
-                modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                fontSize = 12.sp,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 8.dp)
+                    .padding(horizontal = 8.dp)// Adjust padding as necessary
             )
         }
     }
