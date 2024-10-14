@@ -24,15 +24,15 @@ import com.example.books.ViewModel.BookViewModel
 @Composable
 fun BooksScreen(
     modifier: Modifier = Modifier,
-    viewModel: BookViewModel = viewModel(),
+    viewModel: BookViewModel,  // Use the viewModel passed from the parent
     navController: NavController
 ) {
-    val books = viewModel.booksData.observeAsState(emptyList()).value // Get the list of books
-    val filteredBooks = viewModel.filteredBooks.observeAsState(emptyList()).value // Get the filtered list of books
+    val books = viewModel.booksData.observeAsState(emptyList()).value
+    val filteredBooks = viewModel.filteredBooks.observeAsState(emptyList()).value
 
     if (books.isNullOrEmpty()) {
         Box(
-            modifier = Modifier.fillMaxSize() // Make the Box fill the entire screen
+            modifier = Modifier.fillMaxSize()
         ) {
             Text(
                 text = "No book details available",
@@ -42,8 +42,8 @@ fun BooksScreen(
                     lineHeight = 24.sp
                 ),
                 modifier = Modifier
-                    .align(Alignment.Center) // Center the text horizontally and vertically
-                    .padding(32.dp) // Add padding around the text
+                    .align(Alignment.Center)
+                    .padding(32.dp)
             )
         }
     } else {
@@ -58,21 +58,19 @@ fun BooksScreen(
                 )
             )
 
-            Spacer(modifier = Modifier.height(16.dp)) // Add some space between title and search bar
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Search Bar
             TextField(
                 value = viewModel.searchQuery,
-                onValueChange = { viewModel.searchQuery = it }, // Update search query in ViewModel
+                onValueChange = { viewModel.searchQuery = it },
                 placeholder = { Text("Search books...") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp) // Add horizontal padding to the search bar
+                    .padding(horizontal = 16.dp)
             )
 
-            Spacer(modifier = Modifier.height(16.dp)) // Add some space between search bar and grid
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Display filtered books
             if (filteredBooks.isEmpty()) {
                 Text(text = "No books found", modifier = Modifier.padding(16.dp))
             } else {
@@ -81,4 +79,3 @@ fun BooksScreen(
         }
     }
 }
-

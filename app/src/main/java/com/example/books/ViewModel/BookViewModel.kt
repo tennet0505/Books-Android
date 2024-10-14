@@ -6,14 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.books.ApiService.RetrofitClient
+import com.example.books.DB.BookRepository
 import kotlinx.coroutines.launch
 
-class BookViewModel : ViewModel() {
+class BookViewModel(private val repository: BookRepository) : ViewModel() {
 
     private val _bookData = MutableLiveData<List<Book>>()  // List of Book objects
     val booksData: LiveData<List<Book>> get() = _bookData
 
-    // State to hold the search query
     var searchQuery: String = ""
         set(value) {
             field = value
@@ -27,21 +27,21 @@ class BookViewModel : ViewModel() {
     val filteredBooks: LiveData<List<Book>> get() = _filteredBooks
 
     init {
+        // Load books when ViewModel is created
         viewModelScope.launch {
-            getBooks()
+            fetchAndSaveBooks()
+            loadBooksFromDatabase()
         }
     }
 
-    private suspend fun getBooks() {
-        try {
-            // Fetch books from API
-            val bookList = RetrofitClient.booksApiService.getBooks()
-            _bookData.value = bookList  // Set the result to LiveData
-            _filteredBooks.value = bookList  // Initialize filtered list with all books
-        } catch (e: Exception) {
-            // Handle error, optionally set an error message or empty list
-            _bookData.value = emptyList()  // Set empty list if there’s an error
-            _filteredBooks.value = emptyList()  // Also set filtered list to empty
-        }
+    // Fetch books from the API and save them to the database
+    private suspend fun fetchAndSaveBooks() {
+        repository.fetchAndSaveBooksFromApi()
+    }
+
+    // Load books from the database
+    private suspend fun loadBooksFromDatabase() {
+        _bookData.value = repository.getBooksFromDb()  // Load books from the repository
+        _filteredBooks.value = _bookData.value  // Initialize filtered list
     }
 }

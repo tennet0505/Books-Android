@@ -2,9 +2,9 @@
 adaptive = "1.1.0-alpha04"
 agp = "8.7.0"
 coilCompose = "2.4.0"
-coilComposeVersion = "2.2.2"
+coilComposeVersion = "2.4.0"
 converterMoshi = "2.9.0"
-kotlin = "1.9.0"
+kotlin = "2.0.20"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -12,7 +12,7 @@ espressoCore = "3.6.1"
 lifecycleLivedataKtx = "2.8.6"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
-composeBom = "2023.08.00"
+composeBom = "2024.09.03"
 lifecycleViewmodelKtx = "2.8.6"
 loggingInterceptor = "4.11.0"
 moshi = "1.15.1"
@@ -20,6 +20,8 @@ moshiKotlin = "1.15.1"
 navigationCompose = "2.8.2"
 retrofit = "2.9.0"
 runtimeLivedata = "1.7.3"
+ksp = "2.0.20-1.0.24"
+room = "2.6.1"
 
 [libraries]
 androidx-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
@@ -57,8 +59,14 @@ moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "mosh
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 ui = { module = "androidx.compose.ui:ui" }
 ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+jetbrains-kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+room = { id = "androidx.room", version.ref = "room" }
 
