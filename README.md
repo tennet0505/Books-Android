@@ -59,4 +59,3 @@ Acknowledgements
 •	Jetpack Compose - for modern UI development
 •	Room - for local database implementation
 •	Kotlin - programming language used in this project
-![image](https://github.com/user-attachments/assets/124d0a55-ffb8-40bb-99cb-bcc5f3421afc)
