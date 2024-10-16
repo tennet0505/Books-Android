@@ -1,4 +1,4 @@
-package com.example.books.View
+package com.example.books.View.SearchActivities
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -15,7 +16,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -33,7 +33,7 @@ fun BooksTableView(
     navController: NavController
 ) {
     LazyColumn(
-        modifier = modifier.padding(8.dp),
+        modifier = modifier.padding(0.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(books) { book ->
@@ -100,11 +100,11 @@ fun BookTableItem(book: Book, navController: NavController) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    imageVector = Icons.Filled.Star,  // Star icon provided by Compose
+                Icon(
+                    Icons.Default.Star,
                     contentDescription = "Rating",
-                    modifier = Modifier.size(16.dp),
-                    colorFilter = ColorFilter.tint(Color.Yellow)
+                    tint = Color(0xFFFFA500),
+                    modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(

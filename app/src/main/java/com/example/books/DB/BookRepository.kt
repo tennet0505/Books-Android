@@ -19,13 +19,10 @@ class BookRepository(private val bookDao: BookDao) {
         // Prepare a list to save the updated books with preserved favorite status
         val updatedBooks = books.map { apiBook ->
             val existingBook = existingBooks[apiBook.id]
-            if (existingBook != null) {
-                // If the book already exists, keep its favorite status
-                existingBook.copy(title = apiBook.title, author = apiBook.author, imageUrl = apiBook.imageUrl, bookDescription = apiBook.bookDescription)
-            } else {
-                // If it's a new book, return it as is
+            // If the book already exists, keep its favorite status
+            existingBook?.copy(title = apiBook.title, author = apiBook.author, imageUrl = apiBook.imageUrl, bookDescription = apiBook.bookDescription)
+                ?: // If it's a new book, return it as is
                 apiBook
-            }
         }
 
         // Save updated books to the database

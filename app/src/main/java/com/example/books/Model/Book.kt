@@ -16,7 +16,8 @@ data class Book(
     val imageUrl: String,
     val bookDescription: String,
     val isFavorite: Boolean = false,
-    val isPopular: Boolean = false
+    val isPopular: Boolean = false,
+    val pdfUrl: String
 )
 
 fun Book.toBookLocal(): BookLocal {
@@ -27,7 +28,8 @@ fun Book.toBookLocal(): BookLocal {
         imageUrl = this.imageUrl,
         bookDescription = this.bookDescription,
         isFavorite = this.isFavorite,
-        isPopular = this.isPopular
+        isPopular = this.isPopular,
+        pdfUrl = this.pdfUrl
     )
 }
 
@@ -38,8 +40,11 @@ data class BookLocal(
     val imageUrl: String,
     val bookDescription: String,
     val isFavorite: Boolean = false,
-    val isPopular: Boolean = false
+    val isPopular: Boolean = false,
+    val pdfUrl: String
 ) : Parcelable {
+
+
     @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -49,6 +54,7 @@ data class BookLocal(
         parcel.readString() ?: "",
         parcel.readBoolean(),
         parcel.readBoolean(),
+        parcel.readString() ?: "",
 
     )
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -60,6 +66,7 @@ data class BookLocal(
         parcel.writeString(bookDescription)
         parcel.writeBoolean(isFavorite)
         parcel.writeBoolean(isPopular)
+        parcel.writeString(pdfUrl)
     }
 
     override fun describeContents(): Int {

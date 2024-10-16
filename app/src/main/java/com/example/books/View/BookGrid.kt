@@ -8,7 +8,12 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,28 +36,38 @@ import com.example.books.Model.toBookLocal
 
 @Composable
 fun BooksGrid(
+    isHideFavButton: Boolean = true,
     books: List<Book>,  // The list of books passed from ViewModel
     modifier: Modifier = Modifier,
-    navController: NavController// Lambda to handle book clicks
+    navController: NavController,
+    onFavoriteClick: (Book) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2), // Creates a grid with 2 columns
         modifier = modifier.padding(8.dp),  // Optionally add padding
-        contentPadding = PaddingValues(8.dp),
+        contentPadding = PaddingValues(0.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(books) { book ->
-            BookItem(
-                book = book,
-                navController = navController
+            BookItem(book = book,
+                isHideFavButton = isHideFavButton,
+                navController = navController,
+                isFavorite = book.isFavorite,
+                onFavoriteClick = {
+                    onFavoriteClick(book)
+                }
             )
         }
     }
 }
 
 @Composable
-fun BookItem(book: Book, navController: NavController) {
+fun BookItem(book: Book,
+             isHideFavButton: Boolean,
+             navController: NavController,
+             isFavorite: Boolean,
+             onFavoriteClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -64,7 +79,7 @@ fun BookItem(book: Book, navController: NavController) {
                 navController.currentBackStackEntry?.savedStateHandle?.set("book", bookLocal)
                 navController.navigate("BookDetailsScreen")
             },
-                shape = RoundedCornerShape(4.dp)
+        shape = RoundedCornerShape(4.dp)
     ) {
         Box(Modifier.fillMaxSize()) {
             // Image as background
@@ -72,8 +87,7 @@ fun BookItem(book: Book, navController: NavController) {
                 painter = rememberAsyncImagePainter(book.imageUrl),
                 contentDescription = "Book cover",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             )
 
             // Top gradient
@@ -122,8 +136,8 @@ fun BookItem(book: Book, navController: NavController) {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .padding(top = 16.dp)
-                    .padding(horizontal = 8.dp)// Adjust padding as necessary
+                    .padding(top = 32.dp)
+                    .padding(horizontal = 8.dp) // Adjust padding as necessary
             )
 
             // Author at the bottom center
@@ -135,17 +149,34 @@ fun BookItem(book: Book, navController: NavController) {
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 8.dp)
-                    .padding(horizontal = 8.dp)// Adjust padding as necessary
+                    .padding(horizontal = 8.dp) // Adjust padding as necessary
             )
+
+            // Favorite button at the top right
+            if (!isHideFavButton) IconButton(
+                onClick = onFavoriteClick,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(0.dp)
+            ) {
+                Icon(
+                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "Favorite",
+                    tint = if (isFavorite) Color.Red else Color.Gray // Change icon color as needed
+                )
+            }
         }
     }
 }
 
 @Composable
-fun BookItemSquare(book: Book, navController: NavController) {
+fun BookItemSquare(book: Book,
+                   navController: NavController,
+                   isFavorite: Boolean,
+                   onFavoriteClick: () -> Unit) {
     Card(
         modifier = Modifier
-            .size(100.dp) // Set size to 100x100
+            .size(150.dp) // Set size to 100x100
             .clickable {
                 val bookLocal: BookLocal = book.toBookLocal()
                 navController.currentBackStackEntry?.savedStateHandle?.set("book", bookLocal)
@@ -184,11 +215,11 @@ fun BookItemSquare(book: Book, navController: NavController) {
                 maxLines = 2, // Allow 2 lines for the title
                 overflow = TextOverflow.Ellipsis, // Use ellipsis for overflow
                 color = Color.White,
-                fontSize = 10.sp,
+                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .align(Alignment.TopCenter)
-                    .padding(top = 8.dp)
+                    .padding(top = 30.dp)
                     .padding(horizontal = 4.dp) // Adjust padding as necessary
             )
 
@@ -197,12 +228,26 @@ fun BookItemSquare(book: Book, navController: NavController) {
                 text = "by ${book.author}",
                 textAlign = TextAlign.Center,
                 color = Color.White,
-                fontSize = 8.sp,
+                fontSize = 12.sp,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 4.dp)
                     .padding(horizontal = 4.dp) // Adjust padding as necessary
             )
+
+            // Favorite button at the top right
+            IconButton(
+                onClick = onFavoriteClick,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(0.dp)
+            ) {
+                Icon(
+                    imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "Favorite",
+                    tint = if (isFavorite) Color.Red else Color.Gray
+                )
+            }
         }
     }
 }

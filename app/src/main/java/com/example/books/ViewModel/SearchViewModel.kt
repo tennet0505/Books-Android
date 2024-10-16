@@ -1,11 +1,14 @@
 package com.example.books.ViewModel
 
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.books.DB.BookRepository
 import com.example.books.Model.Book
+import com.example.books.Model.BookLocal
 import kotlinx.coroutines.launch
 
 class SearchViewModel(private val repository: BookRepository) : ViewModel(), BookOperations {
@@ -16,7 +19,7 @@ class SearchViewModel(private val repository: BookRepository) : ViewModel(), Boo
     private val _filteredBooks = MutableLiveData<List<Book>>()  // List of filtered books
     val filteredBooks: LiveData<List<Book>> get() = _filteredBooks
 
-    var searchQuery: String = ""
+    override var searchQuery: String = ""
         set(value) {
             field = value
             filterBooks(value)  // Filter books whenever the search query changes
@@ -47,5 +50,15 @@ class SearchViewModel(private val repository: BookRepository) : ViewModel(), Boo
         viewModelScope.launch {
             repository.updateBookFavoriteStatus(bookId, isFavorite)
         }
+    }
+
+    override fun shareBook(book: BookLocal?, context: Context) {
+        val shareText = "Check out this book: ${book?.title} by ${book?.author}.\nMore info: ${book?.imageUrl}" // Adjust as needed
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareText)
+            type = "text/plain"
+        }
+        context.startActivity(Intent.createChooser(shareIntent, "Share via"))
     }
 }
