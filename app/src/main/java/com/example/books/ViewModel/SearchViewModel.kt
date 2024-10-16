@@ -1,17 +1,14 @@
 package com.example.books.ViewModel
 
-import com.example.books.Model.Book
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.books.ApiService.RetrofitClient
 import com.example.books.DB.BookRepository
-import com.example.books.DB.BookViewModelFactory
+import com.example.books.Model.Book
 import kotlinx.coroutines.launch
 
-class BookViewModel(private val repository: BookRepository) : ViewModel(), BookOperations {
+class SearchViewModel(private val repository: BookRepository) : ViewModel(), BookOperations {
 
     private val _bookData = MutableLiveData<List<Book>>()  // List of Book objects
     val booksData: LiveData<List<Book>> get() = _bookData
@@ -28,14 +25,8 @@ class BookViewModel(private val repository: BookRepository) : ViewModel(), BookO
     init {
         // Load books when ViewModel is created
         viewModelScope.launch {
-            fetchAndSaveBooks()
             loadBooksFromDatabase()
         }
-    }
-
-    // Fetch books from the API and save them to the database
-    private suspend fun fetchAndSaveBooks() {
-        repository.fetchAndSaveBooksFromApi()
     }
 
     // Load books from the database
@@ -55,13 +46,6 @@ class BookViewModel(private val repository: BookRepository) : ViewModel(), BookO
     override fun updateBookFavoriteStatus(bookId: Int, isFavorite: Boolean) {
         viewModelScope.launch {
             repository.updateBookFavoriteStatus(bookId, isFavorite)
-        }
-    }
-
-    fun addBook(book: Book) {
-        viewModelScope.launch {
-            repository.addBook(book) // Assuming your repository has this method
-            loadBooksFromDatabase() // Optionally refresh the list after adding
         }
     }
 }

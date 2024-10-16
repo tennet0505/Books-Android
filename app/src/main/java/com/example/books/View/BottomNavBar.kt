@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -79,6 +80,28 @@ fun BottomNavBar(navController: NavController) {
                 onClick = {
                     navController.navigate("favorite") {
                         popUpTo("favorite") { inclusive = true }
+                    }
+                }
+            )
+
+            BottomNavigationItem(
+                icon = {
+                    Icon(
+                        Icons.Default.Search,
+                        contentDescription = "Search",
+                        tint = if (currentRoute == "search") contentColor else inactiveContentColor
+                    )
+                },
+                label = {
+                    Text(
+                        "Search",
+                        color = if (currentRoute == "search") contentColor else inactiveContentColor
+                    )
+                },
+                selected = currentRoute == "search",
+                onClick = {
+                    navController.navigate("search") {
+                        popUpTo("search") { inclusive = true }
                     }
                 }
             )

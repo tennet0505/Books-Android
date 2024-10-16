@@ -65,6 +65,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -75,9 +76,18 @@ dependencies {
     implementation(libs.androidx.adaptive)
     implementation(libs.androidx.adaptive.layout)
     implementation(libs.androidx.adaptive.navigation)
-
-    // Compose ViewModel
+    testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.mockito.core.v520)
+    testImplementation(libs.mockito.inline.v520)
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.junit)
+    // Room Testing
+    testImplementation(libs.androidx.room.testing)
+    implementation(libs.kotlin.stdlib)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    testImplementation(project(":app"))
 
     // Compose LiveData
     implementation(libs.androidx.runtime.livedata)

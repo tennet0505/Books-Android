@@ -54,4 +54,8 @@ class BookRepository(private val bookDao: BookDao) {
     suspend fun getFavoriteBooks(): List<Book> {
         return bookDao.getFavoriteBooks() // Assume this method is defined in your DAO
     }
+
+    suspend fun addBook(book: Book) {
+        bookDao.insertBook(book) // Assuming insertBook is defined in your DAO
+    }
 }

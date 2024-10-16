@@ -31,6 +31,7 @@ import com.example.books.DB.AppDatabase
 import com.example.books.DB.BookRepository
 import com.example.books.DB.BookViewModelFactory
 import com.example.books.ViewModel.FavoriteBooksViewModel
+import com.example.books.ViewModel.SearchViewModel
 import com.example.books.ui.theme.BooksTheme
 
 class MainActivity : ComponentActivity() {
@@ -50,6 +51,9 @@ class MainActivity : ComponentActivity() {
         val favBooksViewModel: FavoriteBooksViewModel by viewModels {
             BookViewModelFactory(bookRepository)
         }
+        val searchViewModel: SearchViewModel by viewModels {
+            BookViewModelFactory(bookRepository)
+        }
 
         setContent {
             BooksTheme {
@@ -59,7 +63,8 @@ class MainActivity : ComponentActivity() {
                 ) {
                     MyApp(
                         bookViewModel = bookViewModel,
-                        favBookViewModel = favBooksViewModel
+                        favBookViewModel = favBooksViewModel,
+                        searchViewModel = searchViewModel
                     )
                 }
             }
