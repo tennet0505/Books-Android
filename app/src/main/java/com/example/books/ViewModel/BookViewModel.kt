@@ -1,5 +1,8 @@
 package com.example.books.ViewModel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.example.books.Model.Book
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -25,6 +28,8 @@ class BookViewModel(private val repository: BookRepository) : ViewModel(), BookO
             filterBooks(value)  // Filter books whenever the search query changes
         }
 
+    var isLoading by mutableStateOf(true)  // New property for loading state
+
     init {
         // Load books when ViewModel is created
         viewModelScope.launch {
@@ -40,8 +45,10 @@ class BookViewModel(private val repository: BookRepository) : ViewModel(), BookO
 
     // Load books from the database
     private suspend fun loadBooksFromDatabase() {
+        isLoading = true  // Set loading state to true
         _bookData.value = repository.getBooksFromDb()  // Load books from the repository
         _filteredBooks.value = _bookData.value  // Initialize filtered list
+        isLoading = false  // Set loading state to false
     }
 
     // Filter books based on the search query

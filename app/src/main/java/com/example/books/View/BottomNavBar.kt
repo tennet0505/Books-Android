@@ -83,7 +83,6 @@ fun BottomNavBar(navController: NavController) {
                     }
                 }
             )
-
             BottomNavigationItem(
                 icon = {
                     Icon(

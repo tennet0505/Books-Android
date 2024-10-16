@@ -55,7 +55,7 @@ fun FavoriteBooksScreen(
         }
     } else {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Start,
         ) {
             Text(
                 text = "Favorite Books",

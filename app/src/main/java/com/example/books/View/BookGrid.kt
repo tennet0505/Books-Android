@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -61,7 +63,8 @@ fun BookItem(book: Book, navController: NavController) {
                 val bookLocal: BookLocal = book.toBookLocal()
                 navController.currentBackStackEntry?.savedStateHandle?.set("book", bookLocal)
                 navController.navigate("BookDetailsScreen")
-            }
+            },
+                shape = RoundedCornerShape(4.dp)
     ) {
         Box(Modifier.fillMaxSize()) {
             // Image as background
@@ -133,6 +136,72 @@ fun BookItem(book: Book, navController: NavController) {
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 8.dp)
                     .padding(horizontal = 8.dp)// Adjust padding as necessary
+            )
+        }
+    }
+}
+
+@Composable
+fun BookItemSquare(book: Book, navController: NavController) {
+    Card(
+        modifier = Modifier
+            .size(100.dp) // Set size to 100x100
+            .clickable {
+                val bookLocal: BookLocal = book.toBookLocal()
+                navController.currentBackStackEntry?.savedStateHandle?.set("book", bookLocal)
+                navController.navigate("BookDetailsScreen")
+            },
+        shape = RoundedCornerShape(4.dp) // Set corner radius
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Image as background
+            Image(
+                painter = rememberAsyncImagePainter(book.imageUrl),
+                contentDescription = "Book cover",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            // Gradient overlay for title
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp) // Adjust height for the title area
+                    .align(Alignment.TopCenter)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color.Black.copy(alpha = 0.6f), Color.Transparent),
+                            startY = 0f, // Start from the top
+                            endY = 100f // End at the height of the Box
+                        )
+                    )
+            )
+
+            // Title at the top center
+            Text(
+                text = book.title,
+                textAlign = TextAlign.Center,
+                maxLines = 2, // Allow 2 lines for the title
+                overflow = TextOverflow.Ellipsis, // Use ellipsis for overflow
+                color = Color.White,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 8.dp)
+                    .padding(horizontal = 4.dp) // Adjust padding as necessary
+            )
+
+            // Author at the bottom center
+            Text(
+                text = "by ${book.author}",
+                textAlign = TextAlign.Center,
+                color = Color.White,
+                fontSize = 8.sp,
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 4.dp)
+                    .padding(horizontal = 4.dp) // Adjust padding as necessary
             )
         }
     }

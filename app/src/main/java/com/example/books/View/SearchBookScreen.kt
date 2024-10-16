@@ -13,8 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,8 +35,11 @@ fun SearchBookScreen(
     // Observe filtered favorite books from the ViewModel
     val books = searchViewModel.booksData.observeAsState(emptyList()).value
     val filteredBooks = searchViewModel.filteredBooks.observeAsState(emptyList()).value
+    val focusRequester = remember { FocusRequester() }
 
-
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus() // Request focus for the search field
+    }
     if (books.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize()
@@ -52,7 +58,7 @@ fun SearchBookScreen(
         }
     } else {
         Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.Start,
         ) {
             Text(
                 text = "Search",
@@ -71,6 +77,7 @@ fun SearchBookScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
+                    .focusRequester(focusRequester)
             )
 
             Spacer(modifier = Modifier.height(16.dp))

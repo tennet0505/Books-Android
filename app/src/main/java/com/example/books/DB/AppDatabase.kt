@@ -8,7 +8,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.books.Model.Book
 
-@Database(entities = [Book::class], version = 2)
+@Database(entities = [Book::class], version = 3)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
 
@@ -23,18 +23,10 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "book_database"
                 )
-                    .addMigrations(MIGRATION_1_2)
                     .build()
                 INSTANCE = instance
                 instance
             }
         }
-    }
-}
-
-val MIGRATION_1_2 = object : Migration(1, 2) {
-    override fun migrate(database: SupportSQLiteDatabase) {
-        // Here you can add the necessary SQL commands to migrate the database schema
-        database.execSQL("ALTER TABLE books ADD COLUMN isFavorite INTEGER NOT NULL DEFAULT 0")
     }
 }

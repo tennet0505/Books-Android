@@ -32,60 +32,52 @@ fun MyApp(bookViewModel: BookViewModel,
             startDestination = "home",
             Modifier.padding(innerPadding)
         ) {
-            composable("home") { HomeScreen(bookViewModel) }
-            composable("favorite") { MyLibraryScreen(favBookViewModel) }
-            composable("search") { SearchScreen(searchViewModel) }
+            composable("home") {
+                HomeScreen(bookViewModel = bookViewModel, navController = navController)
+            }
+            composable("favorite") {
+                MyLibraryScreen(favBooksViewModel = favBookViewModel, navController = navController)
+            }
+            composable("search") {
+                SearchScreen(searchViewModel = searchViewModel, navController = navController)
+            }
+            // Add route for book details
+            composable("BookDetailsScreen") {
+                BookDetailsScreen(navController = navController, viewModel = bookViewModel)
+            }
         }
     }
 }
-
 @Composable
-fun HomeScreen(bookViewModel: BookViewModel) {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "BooksScreen") {
-        composable(route = "BooksScreen") {
-            BooksScreen(
-                navController = navController,
-                viewModel = bookViewModel)
-        }
-        composable(route = "BookDetailsScreen") {
-            BookDetailsScreen(
-                navController = navController,
-                viewModel = bookViewModel)
-        }
-    }
+fun HomeScreen(
+    bookViewModel: BookViewModel,
+    navController: NavHostController
+) {
+    // Just pass the navController to BooksScreen
+    BooksScreen(
+        navController = navController,
+        viewModel = bookViewModel
+    )
 }
 
 @Composable
-fun MyLibraryScreen(favBooksViewModel: FavoriteBooksViewModel) {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "FavoriteBooksScreen") {
-        composable(route = "FavoriteBooksScreen") {
-            FavoriteBooksScreen(
-                navController = navController,
-                favoriteBooksViewModel = favBooksViewModel)
-        }
-        composable(route = "BookDetailsScreen") {
-            BookDetailsScreen(
-                navController = navController,
-                viewModel = favBooksViewModel)
-        }
-    }
+fun MyLibraryScreen(
+    favBooksViewModel: FavoriteBooksViewModel,
+    navController: NavHostController
+) {
+    FavoriteBooksScreen(
+        navController = navController,
+        favoriteBooksViewModel = favBooksViewModel
+    )
 }
 
 @Composable
-fun SearchScreen(searchViewModel: SearchViewModel) {
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = "FavoriteBooksScreen") {
-        composable(route = "FavoriteBooksScreen") {
-            SearchBookScreen(
-                navController = navController,
-                searchViewModel = searchViewModel)
-        }
-        composable(route = "BookDetailsScreen") {
-            BookDetailsScreen(
-                navController = navController,
-                viewModel = searchViewModel)
-        }
-    }
+fun SearchScreen(
+    searchViewModel: SearchViewModel,
+    navController: NavHostController
+) {
+    SearchBookScreen(
+        navController = navController,
+        searchViewModel = searchViewModel
+    )
 }
