@@ -24,7 +24,7 @@ import com.example.books.Helpers.AppColors
 import com.example.books.Model.Book
 import com.example.books.Model.BookLocal
 import com.example.books.Model.toBookLocal
-import com.example.books.View.BookItem
+import com.example.books.View.UIComponents.BookItem
 
 @Composable
 fun BookItemHorizontal(book: Book,

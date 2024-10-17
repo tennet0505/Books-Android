@@ -1,5 +1,8 @@
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
+import android.webkit.WebView
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -39,12 +42,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.books.Helpers.AppColors
 import com.example.books.Model.BookLocal
 import com.example.books.ViewModel.ViewModelInterface
 
+@SuppressLint("QueryPermissionsNeeded")
 @Composable
 fun BookDetailsScreen(
     navController: NavController,
@@ -166,10 +171,13 @@ fun BookDetailsScreen(
         if (isFavorite) Button(
             onClick = {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse(book.pdfUrl) // Ensure this is the correct URL for the PDF
-                    setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                    data = Uri.parse(book.pdfUrl)
                 }
-                context.startActivity(intent)
+                if (intent.resolveActivity(context.packageManager) != null) {
+                    context.startActivity(intent)
+                } else {
+                    Toast.makeText(context, "No application available to open PDF", Toast.LENGTH_SHORT).show()
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()

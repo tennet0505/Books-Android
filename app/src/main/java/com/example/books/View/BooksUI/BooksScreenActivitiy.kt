@@ -20,7 +20,7 @@ import androidx.navigation.NavController
 import com.example.books.ViewModel.BookViewModel
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import com.example.books.View.BookItemSquare
+import com.example.books.View.UIComponents.BookItemSquare
 import com.example.books.View.UIComponents.HeaderTitle
 import com.example.books.View.UIComponents.LoadingIndicator
 import com.example.books.View.UIComponents.NoBooksAvailable

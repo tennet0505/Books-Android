@@ -1,6 +1,7 @@
 [versions]
 adaptive = "1.1.0-alpha04"
 agp = "8.7.0"
+androidPdfViewer = "3.2.0-beta.1"
 coilCompose = "2.4.0"
 coilComposeVersion = "2.4.0"
 converterMoshi = "2.9.0"
@@ -35,6 +36,7 @@ appcompat = "1.7.0"
 coreKtxVersion = "1.6.1"
 
 [libraries]
+android-pdf-viewer = { module = "com.github.barteksc:android-pdf-viewer", version.ref = "androidPdfViewer" }
 androidx-adaptive = { module = "androidx.compose.material3.adaptive:adaptive", version.ref = "adaptive" }
 androidx-adaptive-layout = { module = "androidx.compose.material3.adaptive:adaptive-layout", version.ref = "adaptive" }
 androidx-adaptive-navigation = { module = "androidx.compose.material3.adaptive:adaptive-navigation", version.ref = "adaptive" }

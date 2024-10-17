@@ -44,35 +44,33 @@ data class BookLocal(
     val pdfUrl: String
 ) : Parcelable {
 
-
-    @RequiresApi(Build.VERSION_CODES.Q)
+    // Primary constructor for Parcelable
     constructor(parcel: Parcel) : this(
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readBoolean(),
-        parcel.readBoolean(),
-        parcel.readString() ?: "",
-
+        id = parcel.readString() ?: "",
+        title = parcel.readString() ?: "",
+        author = parcel.readString() ?: "",
+        imageUrl = parcel.readString() ?: "",
+        bookDescription = parcel.readString() ?: "",
+        isFavorite = parcel.readInt() == 1, // Use writeInt() and readInt()
+        isPopular = parcel.readInt() == 1, // Use writeInt() and readInt()
+        pdfUrl = parcel.readString() ?: ""
     )
-    @RequiresApi(Build.VERSION_CODES.Q)
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(author)
         parcel.writeString(imageUrl)
         parcel.writeString(bookDescription)
-        parcel.writeBoolean(isFavorite)
-        parcel.writeBoolean(isPopular)
+        parcel.writeInt(if (isFavorite) 1 else 0) // Use writeInt() for boolean
+        parcel.writeInt(if (isPopular) 1 else 0)  // Use writeInt() for boolean
         parcel.writeString(pdfUrl)
     }
 
     override fun describeContents(): Int {
         return 0
     }
-    @RequiresApi(Build.VERSION_CODES.Q)
+
     companion object CREATOR : Parcelable.Creator<BookLocal> {
         override fun createFromParcel(parcel: Parcel): BookLocal {
             return BookLocal(parcel)

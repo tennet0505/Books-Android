@@ -2,7 +2,6 @@ package com.example.books.View.MyFavoritesUI
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,12 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.books.View.BooksGrid
+import com.example.books.View.UIComponents.BooksGrid
 import com.example.books.View.UIComponents.HeaderTitle
 import com.example.books.View.UIComponents.NoBooksAvailable
 import com.example.books.ViewModel.FavoriteBooksViewModel
@@ -44,6 +40,13 @@ fun FavoriteBooksScreen(
     LaunchedEffect(Unit) {
         favoriteBooksViewModel.loadFavoriteBooks()
     }
+    Column(
+            horizontalAlignment = Alignment.Start,
+    modifier = Modifier
+        .padding(horizontal = 16.dp)
+    ) {
+    Spacer(modifier = Modifier.height(16.dp))
+    HeaderTitle("Favorite books")
 
     if (books.isEmpty()) {
         Box(
@@ -52,13 +55,6 @@ fun FavoriteBooksScreen(
             NoBooksAvailable("No favorite books available")
         }
     } else {
-        Column(
-            horizontalAlignment = Alignment.Start,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
-            HeaderTitle("Favorite books")
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
                 value = favoriteBooksViewModel.searchQuery,

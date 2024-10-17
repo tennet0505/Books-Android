@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.books.View.BooksUI.BooksScreen
 import com.example.books.View.MyFavoritesUI.FavoriteBooksScreen
 import com.example.books.View.SearchBookUI.SearchBookScreen
+import com.example.books.View.UIComponents.BottomNavBar
 import com.example.books.ViewModel.BookViewModel
 import com.example.books.ViewModel.FavoriteBooksViewModel
 import com.example.books.ViewModel.SearchBookViewModel
