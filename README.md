@@ -101,7 +101,7 @@ Open the Project in Android Studio
 - **Offline Mode: Expand local caching to allow offline functionality.
 
 ## 7. API
-- **The project uses MockAPI for demonstration purposes.
+- **Project uses https://mockapi.io/projects
 
 ## 8. Video
 - **Video walkthrough of the app: https://drive.google.com/file/d/1NuU2FsLDUgMeEHbEK8eRD46-hr4YKXfb/view?usp=sharing
