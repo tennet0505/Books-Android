@@ -1,4 +1,4 @@
-package com.example.books.View.SearchActivities
+package com.example.books.View.SearchBookUI
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -22,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.books.Helpers.AppColors
 import com.example.books.Model.Book
 import com.example.books.Model.BookLocal
 import com.example.books.Model.toBookLocal
@@ -56,7 +56,6 @@ fun BookTableItem(book: Book, navController: NavController) {
                 navController.currentBackStackEntry?.savedStateHandle?.set("book", bookLocal)
                 navController.navigate("BookDetailsScreen")
             }
-            .padding(8.dp)
     ) {
         // Book Image
         Image(
@@ -67,7 +66,7 @@ fun BookTableItem(book: Book, navController: NavController) {
                 .size(100.dp)
                 .aspectRatio(0.75f)
                 .clip(RoundedCornerShape(8.dp))
-                .padding(16.dp)
+                .padding(end = 16.dp, top = 16.dp, bottom = 16.dp)
         )
 
         Spacer(modifier = Modifier.width(16.dp))
@@ -103,7 +102,7 @@ fun BookTableItem(book: Book, navController: NavController) {
                 Icon(
                     Icons.Default.Star,
                     contentDescription = "Rating",
-                    tint = Color(0xFFFFA500),
+                    tint = AppColors.OrangeColor,
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))

@@ -1,54 +1,30 @@
-package com.example.books.View.BooksActivities
+package com.example.books.View.BooksUI
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.books.Model.Book
-import com.example.books.Model.BookLocal
-import com.example.books.Model.toBookLocal
 import com.example.books.ViewModel.BookViewModel
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.runtime.remember
-import androidx.compose.ui.res.painterResource
-import com.example.books.R
-import com.example.books.View.BookItem
 import com.example.books.View.BookItemSquare
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.books.View.UIComponents.HeaderTitle
+import com.example.books.View.UIComponents.LoadingIndicator
+import com.example.books.View.UIComponents.NoBooksAvailable
+import com.example.books.View.UIComponents.TitleGrid
 
 @Composable
 fun BooksScreen(
@@ -60,40 +36,17 @@ fun BooksScreen(
     val isLoading = viewModel.isLoading
 
     if (isLoading) {
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator() // Loader
-        }
+        LoadingIndicator()
     } else {
         if (books.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(
-                    text = "No books available",
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Normal,
-                        lineHeight = 24.sp
-                    ),
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(32.dp)
-                )
-            }
+            NoBooksAvailable("No books available")
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(horizontal = 16.dp) // Set padding for the content
+                contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
                 item {
-                    Text(
-                        text = "Books",
-                        style = TextStyle(
-                            fontSize = 32.sp,
-                            fontWeight = FontWeight.Bold,
-                        ),
-                        modifier = Modifier.padding(vertical = 16.dp)
-                    )
+                    HeaderTitle("Books")
                 }
 
                 // Search Bar
@@ -104,14 +57,7 @@ fun BooksScreen(
                 item { Spacer(modifier = Modifier.height(16.dp)) }
                 // Popular Books Section
                 item {
-                    Text(
-                        text = "Popular",
-                        style = TextStyle(
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
+                    TitleGrid("Popular")
                 }
                 // Popular Books Items
                 item {
@@ -130,14 +76,7 @@ fun BooksScreen(
                 }
                 // New Books Section
                 item {
-                    Text(
-                        text = "New",
-                        style = TextStyle(
-                            fontSize = 22.sp,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier.padding(vertical = 8.dp)
-                    )
+                    TitleGrid("New")
                 }
                 item { Spacer(modifier = Modifier.height(4.dp)) }
                 item {

@@ -44,7 +44,6 @@ fun BooksGrid(
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2), // Creates a grid with 2 columns
-        modifier = modifier.padding(8.dp),  // Optionally add padding
         contentPadding = PaddingValues(0.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -71,7 +70,7 @@ fun BookItem(book: Book,
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
+//            .padding(8.dp)
             .aspectRatio(0.75f)
             .clickable {
                 // Navigate and pass the Book object

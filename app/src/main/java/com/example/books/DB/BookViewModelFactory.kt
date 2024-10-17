@@ -2,10 +2,9 @@ package com.example.books.DB
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewmodel.CreationExtras
 import com.example.books.ViewModel.BookViewModel
 import com.example.books.ViewModel.FavoriteBooksViewModel
-import com.example.books.ViewModel.SearchViewModel
+import com.example.books.ViewModel.SearchBookViewModel
 
 class BookViewModelFactory(
     private val repository: BookRepository
@@ -20,8 +19,8 @@ class BookViewModelFactory(
             modelClass.isAssignableFrom(FavoriteBooksViewModel::class.java) -> {
                 FavoriteBooksViewModel(repository) as T
             }
-            modelClass.isAssignableFrom(SearchViewModel::class.java) -> {
-                SearchViewModel(repository) as T
+            modelClass.isAssignableFrom(SearchBookViewModel::class.java) -> {
+                SearchBookViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class")
         }

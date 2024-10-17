@@ -1,4 +1,4 @@
-package com.example.books.View.BooksActivities
+package com.example.books.View.BooksUI
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.books.Helpers.AppColors
 import com.example.books.Model.Book
 import com.example.books.Model.BookLocal
 import com.example.books.Model.toBookLocal
@@ -58,7 +59,7 @@ fun BookItemHorizontal(book: Book,
                 Icon(
                     Icons.Default.Star,
                     contentDescription = "Rating",
-                    tint = Color(0xFFFFA500),
+                    tint = AppColors.OrangeColor,
                     modifier = Modifier.size(16.dp)
                 )
                 Spacer(modifier = Modifier.width(4.dp))

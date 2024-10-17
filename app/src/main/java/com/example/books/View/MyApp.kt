@@ -9,17 +9,17 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.books.View.BooksActivities.BooksScreen
-import com.example.books.View.MyLibraryActivities.FavoriteBooksScreen
-import com.example.books.View.SearchActivities.SearchBookScreen
+import com.example.books.View.BooksUI.BooksScreen
+import com.example.books.View.MyFavoritesUI.FavoriteBooksScreen
+import com.example.books.View.SearchBookUI.SearchBookScreen
 import com.example.books.ViewModel.BookViewModel
 import com.example.books.ViewModel.FavoriteBooksViewModel
-import com.example.books.ViewModel.SearchViewModel
+import com.example.books.ViewModel.SearchBookViewModel
 
 @Composable
 fun MyApp(bookViewModel: BookViewModel,
           favBookViewModel: FavoriteBooksViewModel,
-          searchViewModel: SearchViewModel) {
+          searchViewModel: SearchBookViewModel) {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = { BottomNavBar(navController) }
@@ -70,7 +70,7 @@ fun MyLibraryScreen(
 
 @Composable
 fun SearchScreen(
-    searchViewModel: SearchViewModel,
+    searchViewModel: SearchBookViewModel,
     navController: NavHostController
 ) {
     SearchBookScreen(

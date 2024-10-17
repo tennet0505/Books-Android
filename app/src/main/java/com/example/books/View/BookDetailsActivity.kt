@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
@@ -43,13 +41,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.books.Helpers.AppColors
 import com.example.books.Model.BookLocal
-import com.example.books.ViewModel.BookOperations
+import com.example.books.ViewModel.ViewModelInterface
 
 @Composable
 fun BookDetailsScreen(
     navController: NavController,
-    viewModel: BookOperations
+    viewModel: ViewModelInterface
 ) {
     // Retrieve the book from the navigation back stack
     val context = LocalContext.current
@@ -101,7 +100,7 @@ fun BookDetailsScreen(
                 color = Color.White,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .background(Color(0xFFFFA500))
+                    .background(AppColors.OrangeColor)
                     .padding(horizontal = 16.dp, vertical = 8.dp)
                     .clip(RoundedCornerShape(6.dp))
             )
@@ -175,8 +174,8 @@ fun BookDetailsScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(24.dp) // Set padding to 24dp
-                .background(color = Color(0xFFFFA500), shape = RoundedCornerShape(4.dp)),
-            colors = ButtonDefaults.buttonColors( Color(0xFFFFA500)) // Ensure button color is orange
+                .background(color = AppColors.OrangeColor, shape = RoundedCornerShape(4.dp)),
+            colors = ButtonDefaults.buttonColors(AppColors.OrangeColor) // Ensure button color is orange
         ) {
             Text(text = "Read",
                 style = TextStyle(

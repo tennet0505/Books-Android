@@ -11,7 +11,7 @@ import com.example.books.Model.Book
 import com.example.books.Model.BookLocal
 import kotlinx.coroutines.launch
 
-class FavoriteBooksViewModel(private val repository: BookRepository) : ViewModel(), BookOperations {
+class FavoriteBooksViewModel(private val repository: BookRepository) : ViewModel(), ViewModelInterface {
 
     private val _favoriteBooks = MutableLiveData<List<Book>>()  // List of favorite books
     val favoriteBooks: LiveData<List<Book>> get() = _favoriteBooks

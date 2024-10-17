@@ -14,7 +14,7 @@ import com.example.books.DB.BookRepository
 import com.example.books.Model.BookLocal
 import kotlinx.coroutines.launch
 
-class BookViewModel(private val repository: BookRepository) : ViewModel(), BookOperations {
+class BookViewModel(private val repository: BookRepository) : ViewModel(), ViewModelInterface {
 
     private val _bookData = MutableLiveData<List<Book>>()  // List of Book objects
     val booksData: LiveData<List<Book>> get() = _bookData

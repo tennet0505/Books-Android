@@ -1,7 +1,8 @@
-package com.example.books.View.SearchActivities
+package com.example.books.View.MyFavoritesUI
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,11 +17,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
@@ -28,65 +26,49 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.books.ViewModel.SearchViewModel
+import com.example.books.View.BooksGrid
+import com.example.books.View.UIComponents.HeaderTitle
+import com.example.books.View.UIComponents.NoBooksAvailable
+import com.example.books.ViewModel.FavoriteBooksViewModel
 
 @Composable
-fun SearchBookScreen(
-    searchViewModel: SearchViewModel,
+fun FavoriteBooksScreen(
+    favoriteBooksViewModel: FavoriteBooksViewModel,
     navController: NavController,
 ) {
     // Observe filtered favorite books from the ViewModel
-    val books = searchViewModel.booksData.observeAsState(emptyList()).value
-    val filteredBooks = searchViewModel.filteredBooks.observeAsState(emptyList()).value
-    val focusRequester = remember { FocusRequester() }
+    val books = favoriteBooksViewModel.favoriteBooks.observeAsState(emptyList()).value
+    val filteredBooks = favoriteBooksViewModel.filteredBooks.observeAsState(emptyList()).value
     val focusManager = LocalFocusManager.current
-
+    // Load favorite books when this screen is first displayed
     LaunchedEffect(Unit) {
-        focusRequester.requestFocus() // Request focus for the search field
+        favoriteBooksViewModel.loadFavoriteBooks()
     }
+
     if (books.isEmpty()) {
         Box(
             modifier = Modifier.fillMaxSize()
         ) {
-            Text(
-                text = "Books not found",
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    lineHeight = 24.sp
-                ),
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .padding(32.dp)
-            )
+            NoBooksAvailable("No favorite books available")
         }
     } else {
         Column(
             horizontalAlignment = Alignment.Start,
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Search",
-                style = TextStyle(
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Bold,
-                ),
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-
+            HeaderTitle("Favorite books")
             Spacer(modifier = Modifier.height(16.dp))
-
             TextField(
-                value = searchViewModel.searchQuery,
-                onValueChange = { searchViewModel.searchQuery = it },
-                placeholder = { Text("Books & Authors") },
+                value = favoriteBooksViewModel.searchQuery,
+                onValueChange = { favoriteBooksViewModel.searchQuery = it },
+                placeholder = { Text("Search favorite books...") },
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .focusRequester(focusRequester),
+                    .fillMaxWidth(),
                 trailingIcon = {
                     IconButton(onClick = {
-                        searchViewModel.searchQuery = "" // Clear the search query
+                        favoriteBooksViewModel.searchQuery = "" // Clear the search query
                         focusManager.clearFocus() // Dismiss the keyboard
                     }) {
                         Icon(
@@ -95,15 +77,17 @@ fun SearchBookScreen(
                             tint = Color.Gray // Set the color of the icon
                         )
                     }
-                },
+                }
             )
-
             Spacer(modifier = Modifier.height(16.dp))
-
             if (filteredBooks.isEmpty()) {
                 Text(text = "No books found", modifier = Modifier.padding(16.dp))
             } else {
-                BooksTableView(books = filteredBooks, navController = navController)
+                BooksGrid(books = filteredBooks,
+                    navController = navController,
+                    onFavoriteClick = { _ ->
+                    // Handle favorite toggle here
+                })
             }
         }
     }

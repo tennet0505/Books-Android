@@ -1,4 +1,4 @@
-package com.example.books.View.BooksActivities
+package com.example.books.View.BooksUI
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
