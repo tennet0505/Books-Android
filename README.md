@@ -59,3 +59,9 @@ Acknowledgements
 •	Jetpack Compose - for modern UI development
 •	Room - for local database implementation
 •	Kotlin - programming language used in this project
+
+**Video walkthrough the app: https://drive.google.com/file/d/1NuU2FsLDUgMeEHbEK8eRD46-hr4YKXfb/view?usp=sharing
+**All screenshots: https://drive.google.com/drive/folders/157KvkD-2xz94J7ebhsaZOiLAe5XovJqd?usp=sharing
+
+MainScreen screenshot:
+![Screenshot_2024-10-17-14-58-16-134_com example books](https://github.com/user-attachments/assets/62812a7f-00ad-4325-ad77-451429d9e9ac)
